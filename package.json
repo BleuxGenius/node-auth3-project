@@ -1,0 +1,26 @@
+{
+  "name": "node-auth3-project",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BleuxGenius/node-auth3-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BleuxGenius/node-auth3-project/issues"
+  },
+  "homepage": "https://github.com/BleuxGenius/node-auth3-project#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "knex": "^0.20.10",
+    "nodemon": "^2.0.2"
+  }
+}
