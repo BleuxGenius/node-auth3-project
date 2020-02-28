@@ -3,43 +3,27 @@
 module.exports = {
 
   development: {
+    // our database management system (DBMS)
     client: 'sqlite3',
+    // prevents crashes within sqlite 
     useNullAsDefault: true,
+    // location of where data will be stored 
     connection: {
-      filename: './dev.sqlite3'
-    }
-  },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      filename: './migrations/auth.db3'
     },
     pool: {
-      min: 2,
-      max: 10
+     afterCreate: (conn, done) => {
+       conn.run('PRAGMA foreign_keys = ON', done);
+     },
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  },
-
-  production: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      directtory: './migrations',
     },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
+    seeds: {
+      directory: './migrations/seeds'
     }
   }
+}
 
-};
+
+// head to the config file for the database will usually be a dbConfig file 
