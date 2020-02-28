@@ -1,5 +1,6 @@
+require('dotenv').config();
 const router = require("express").Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); //<< install the npm pacakage 
 
 const Users = require('../users/users-model.js');
@@ -9,13 +10,20 @@ const { jwtSecret } = require('../secrets.js');
 
 // for endpoints beginning with /api/auth
 router.post('/register', (req, res) => {
+    // get credentials off the body 
     let user = req.body;
-    const hash = bcrypt.hashSync(user.password, 10);
+    console.log(user);
+    // hash the password
+    const salt = 10 // length of the password
+    const hash = bcrypt.hashSync(user.password, salt);
+    // set user password to the hash 
     user.password = hash;
 
+    // add the users to the database 
     Users.add(user)
     .then(saved => {
-        res.status(500).json(saved);
+        const token = generateToken(user);
+        res.status(500).json(saved, token);
     })
     .catch(error => {
         res.status(500).json(error);
@@ -24,11 +32,10 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     let { username, password } = req.body;
+
     Users.findBy({ username })
     .first()
     .then(user => {
-
-    
     if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user); // get a token
 
